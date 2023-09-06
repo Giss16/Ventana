@@ -1,0 +1,135 @@
+
+package trabajo.ventana;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.time.LocalTime;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+public class Ventana extends JFrame {
+
+    private JTextArea textArea;
+    private JLabel hora;
+    private JLabel fecha;
+    private JLabel titulo;
+
+    public Ventana() {
+
+        // ventana principal
+        setTitle("INSERCCION");
+        setSize(600, 600); // tamaño de ventana
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // panel principal
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.setBackground(new Color(110, 106, 166));
+
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new BorderLayout());
+
+        //título
+        JLabel titleLabel = new JLabel("Título Centralizado");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        titleLabel.setForeground(Color.WHITE); // Color de texto personalizado
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER); // Alinear al centro
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
+
+        // mostrar la hora
+        hora = new JLabel();
+        hora.setFont(new Font("Century Gothic", Font.BOLD, 10));
+        panel.add(hora, BorderLayout.BEFORE_FIRST_LINE);
+        panel.setBackground(new Color(165, 133, 236));
+
+        // fecha
+        fecha = new JLabel();
+        fecha.setHorizontalAlignment(SwingConstants.RIGHT);
+        fecha.setFont(new Font("Century Gothic", Font.PLAIN, 14));
+        fecha.setForeground(Color.PINK);
+        panel.add(fecha, BorderLayout.LINE_END);
+        fecha.setForeground(Color.BLACK);
+
+
+        //información ingresada
+        textArea = new JTextArea();
+        textArea.setEditable(false); // Hacer que el área de texto sea no editable
+        textArea.setFont(new Font("Arial", Font.PLAIN, 26)); // Tamaño de fuente
+        panel.add(new JScrollPane(textArea), BorderLayout.CENTER);
+
+
+
+        // panel botones
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout());
+
+        // boton para ingresar información
+        JButton insertarButton = new JButton("Insertar");
+        insertarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String informacion = JOptionPane.showInputDialog("Escriba la información:");
+                if (informacion != null) {
+                    textArea.append(informacion + "\n");
+                    panel.setBackground(new Color(255, 255, 255));
+                }
+            }
+        });
+        buttonPanel.add(insertarButton);
+
+        // boton para ver la información
+        JButton verButton = new JButton("Ver Información");
+        verButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "La información que ingresó:\n" + textArea.getText());
+            }
+        });
+        buttonPanel.add(verButton);
+
+        // boton para salir
+        JButton salirButton = new JButton("Salir");
+        salirButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+        buttonPanel.add(salirButton);
+
+        panel.add(buttonPanel, BorderLayout.SOUTH);
+
+        //
+        add(panel);
+
+        //
+        setVisible(true);
+
+
+        // actualizar hora
+
+
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                LocalTime localTime = LocalTime.now();
+                String horaActual = localTime.toString();
+                hora.setText("Hora: " + horaActual);
+                LocalDate localDate = LocalDate.now();
+                String fechaActual = localDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                fecha.setText("Fecha: " + fechaActual);
+            }
+        });
+        timer.start();
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new Ventana();
+            }
+        });
+    }
+}
