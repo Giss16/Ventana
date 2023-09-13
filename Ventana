@@ -1,135 +1,150 @@
-
-package trabajo.ventana;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalTime;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class Ventana extends JFrame {
 
-    private JTextArea textArea;
-    private JLabel hora;
-    private JLabel fecha;
-    private JLabel titulo;
-
-    public Ventana() {
-
-        // ventana principal
-        setTitle("INSERCCION");
-        setSize(600, 600); // tamaño de ventana
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // panel principal
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.setBackground(new Color(110, 106, 166));
-
-        JPanel headerPanel = new JPanel();
-        headerPanel.setLayout(new BorderLayout());
-
-        //título
-        JLabel titleLabel = new JLabel("Título Centralizado");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        titleLabel.setForeground(Color.WHITE); // Color de texto personalizado
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER); // Alinear al centro
-        headerPanel.add(titleLabel, BorderLayout.CENTER);
-
-        // mostrar la hora
-        hora = new JLabel();
-        hora.setFont(new Font("Century Gothic", Font.BOLD, 10));
-        panel.add(hora, BorderLayout.BEFORE_FIRST_LINE);
-        panel.setBackground(new Color(165, 133, 236));
-
-        // fecha
-        fecha = new JLabel();
-        fecha.setHorizontalAlignment(SwingConstants.RIGHT);
-        fecha.setFont(new Font("Century Gothic", Font.PLAIN, 14));
-        fecha.setForeground(Color.PINK);
-        panel.add(fecha, BorderLayout.LINE_END);
-        fecha.setForeground(Color.BLACK);
+public class Ventana1 extends JFrame{
+           private JTextArea textArea;
+             private JLabel hora;
+                  private JLabel fecha;
+             private JLabel botones;
+    public Ventana1 (String tittle) throws HeadlessException {
 
 
-        //información ingresada
-        textArea = new JTextArea();
-        textArea.setEditable(false); // Hacer que el área de texto sea no editable
-        textArea.setFont(new Font("Arial", Font.PLAIN, 26)); // Tamaño de fuente
-        panel.add(new JScrollPane(textArea), BorderLayout.CENTER);
+        JFrame frame = new JFrame("Gridlayout");
+        {
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                     frame.setSize(600, 600);
+                JPanel panel = new JPanel(new GridBagLayout());
+
+            //cuadrado 1
+
+                  JButton hora = new JButton();
+                          hora.setHorizontalAlignment(SwingConstants.LEFT);
+                             GridBagConstraints gbc1 = new GridBagConstraints();
+                             hora.setBackground(new Color(222, 207, 243));
+                            gbc1.gridx = 0;
+                         gbc1.gridy = 0;
+                        gbc1.gridwidth = 1;
+                        gbc1.gridheight = 1;
+                    gbc1.weightx = 0.2;
+                            gbc1.weighty = 0.2;
+                    gbc1.fill = GridBagConstraints.BOTH;
+                    hora.setPreferredSize((new Dimension(0, 10)));
+                     panel.add(hora, gbc1);
+
+            //cuadrado2
+
+                   JButton fecha = new JButton();
+                      fecha.setHorizontalAlignment(SwingConstants.RIGHT);
+                      GridBagConstraints gbc2 = new GridBagConstraints();
+           fecha.setBackground(new Color(222, 207, 243));
+                           gbc2.gridx = 1;
+                                 gbc2.gridy = 0;
+                              gbc2.gridwidth = 1;
+                            gbc2.gridheight = 1;
+                                 gbc2.weightx = 0.2;
+                                  gbc2.weighty = 0.2;
+                                  gbc2.fill = GridBagConstraints.BOTH;
+                      fecha.setPreferredSize((new Dimension(0, 10)));
+                    panel.add(fecha, gbc2);
 
 
 
-        // panel botones
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
+            //rectangulo
 
-        // boton para ingresar información
-        JButton insertarButton = new JButton("Insertar");
-        insertarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String informacion = JOptionPane.showInputDialog("Escriba la información:");
-                if (informacion != null) {
-                    textArea.append(informacion + "\n");
-                    panel.setBackground(new Color(255, 255, 255));
+                 JPanel rectangulo = new JPanel();
+                    rectangulo.setBackground(new Color(195, 164, 234));
+                     GridBagConstraints gbc3 = new GridBagConstraints();
+                          gbc3.gridx = 0;
+                        gbc3.gridy = 2;
+                         gbc3.gridwidth = 2;
+                        gbc3.gridheight = 2;
+                         gbc3.weightx = 100;
+                        gbc3.weighty = 100;
+                        gbc3.fill = GridBagConstraints.BOTH;
+                         panel.add(rectangulo, gbc3);
+
+
+            //información ingresada
+
+                     textArea = new JTextArea();
+                     textArea.setEditable(false); // Hacer que no sea editable
+            textArea.setFont(new Font("Century Gothic", Font.PLAIN, 16));
+                         rectangulo.add(new JScrollPane(textArea), BorderLayout.CENTER);
+                 panel.add(rectangulo, gbc3);
+            textArea.setPreferredSize((new Dimension(490, 490)));
+            textArea.setAlignmentX(SwingConstants.CENTER);
+            textArea.setBackground(new Color(236, 203, 218));
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new FlowLayout());
+            rectangulo.add(new JScrollPane(buttonPanel), BorderLayout.PAGE_END);
+
+//insertar informacion
+
+                 JButton insertarButton = new JButton("Insertar");
+                    insertarButton.addActionListener(new ActionListener() {
+                     @Override
+                         public void actionPerformed(ActionEvent e) {
+                    String informacion = JOptionPane.showInputDialog("Escriba la información:");
+                    if (informacion != null) {
+                        textArea.append(informacion + "\n");
+                    }
                 }
-            }
-        });
-        buttonPanel.add(insertarButton);
+            });
+            rectangulo.add(insertarButton);
 
-        // boton para ver la información
-        JButton verButton = new JButton("Ver Información");
-        verButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "La información que ingresó:\n" + textArea.getText());
-            }
-        });
-        buttonPanel.add(verButton);
+            // boton para ver la información
 
-        // boton para salir
-        JButton salirButton = new JButton("Salir");
-        salirButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        buttonPanel.add(salirButton);
+            JButton verButton = new JButton("Ver Información");
+            verButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(null, "La información que ingresó:\n" + textArea.getText());
+                }
+            });
+            rectangulo.add(verButton);
 
-        panel.add(buttonPanel, BorderLayout.SOUTH);
+            // boton para salir
 
-        //
-        add(panel);
+            JButton salirButton = new JButton("Salir");
+            salirButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    System.exit(0);
+                }
+            });
+            rectangulo.add(salirButton);
 
-        //
-        setVisible(true);
+            rectangulo.add(buttonPanel, BorderLayout.SOUTH);
+            add(panel);
+
+            frame.setVisible(true);
+
+            Timer timer;
+            timer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    LocalTime localTime = LocalTime.now();
+                    String horaActual = localTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+                    hora.setText("Hora: " + horaActual);
+                    LocalDate localDate = LocalDate.now();
+                    String fechaActual = localDate.format(DateTimeFormatter.ofPattern("dd/MMM/yyyy"));
+                    fecha.setText("Fecha: " + fechaActual);
+
+                }
 
 
-        // actualizar hora
+            });
+            timer.start();
+            frame.add(panel);
 
+        }
 
-        Timer timer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                LocalTime localTime = LocalTime.now();
-                String horaActual = localTime.toString();
-                hora.setText("Hora: " + horaActual);
-                LocalDate localDate = LocalDate.now();
-                String fechaActual = localDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-                fecha.setText("Fecha: " + fechaActual);
-            }
-        });
-        timer.start();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Ventana();
-            }
-        });
-    }
-}
+        }
