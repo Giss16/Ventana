@@ -15,7 +15,7 @@ public class Ventana1 extends JFrame{
     public Ventana1 (String tittle) throws HeadlessException {
 
 
-        JFrame frame = new JFrame("Gridlayout");
+        JFrame frame = new JFrame("Iserccion");
         {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                      frame.setSize(600, 600);
